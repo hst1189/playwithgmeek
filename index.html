@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Play With Gmeek</title>
+    <style>
+		body {
+		    margin: 0;
+		    overflow: hidden;
+		    background: #000;
+		}
+
+		#wormholeCanvas {
+		    display: block;
+		    position: absolute;
+		    top: 0;
+		    left: 0;
+		}
+
+		header {
+		    position: fixed; /* 固定在窗口位置 */
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+			padding: 20px;
+		    text-align: center;
+		    z-index: 100; /* 确保在最上层 */
+		    color: white;
+		    font-family: sans-serif;
+		    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景，能看到背景 */
+		}
+		header h1 {
+			font-size:40px;
+		}
+		footer {
+		    position: fixed; /* 固定在窗口位置 */
+		    bottom: 20px;
+		    left: 0;
+		    width: 100%;
+			padding: 20px;
+		    text-align: center;
+		    z-index: 100; /* 确保在最上层 */
+		    color: white;
+		    font-family: sans-serif;
+		    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景，能看到背景 */
+		}
+		footer p{
+			font-size: 14px;
+		}
+				
+		.go {
+		    position: absolute;
+		    top: 30%;
+		    left: 0;
+		    width: 100%;
+		    text-align: center;
+		    z-index: 100; /* 确保在最上层 */
+		}
+		.go button {
+			font-size:20px;
+			color: white;
+			text-decoration:none;
+		    border: 1px solid rgba(255, 255, 255, 0.5);
+		    border-radius: 20px;
+		    padding: 10px 20px;
+		    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景，能看到背景 */
+		    cursor:pointer;
+		    transition: 0.3s;
+		}
+		.go button:hover {
+			background-color: rgba(123, 32, 0, 0.5); /* 半透明背景，能看到背景 */
+			transform: scale(1.2);
+		}
+		/* 外部容器样式 */
+	    .scrolling-container {
+	    	position: absolute;
+	    	z-index: 100; /* 确保在最上层 */
+			top: 100px;
+	    	right:100px;
+	        width: 300px;
+	        height: 70%; /* 控制可见区域的高度 */
+	        overflow: hidden; /* 隐藏超出部分 */
+		    background-color: rgba(0, 0, 0, 0.5); /* 半透明背景，能看到背景 */
+	    }
+	    .scrolling-text {
+	        color: white;
+	        font-family: Arial, sans-serif;
+	        position: absolute; /* 使其可以自由定位 */
+	        bottom: 0; /* 初始位置在容器底部 */
+	        left: 0;
+	        width: 100%;
+	        height:100%;
+	        padding: 10px 10px;
+	        animation: scroll-up 10s linear infinite; /* 动画名称、持续时间、速度曲线、无限循环 */
+	    }
+
+	    /* 定义动画 */
+	    @keyframes scroll-up {
+	        0% {
+	            transform: translateY(100%); /* 从容器底部开始 */
+	        }
+	        100% {
+	            transform: translateY(-100%); /* 移动到容器顶部之外 */
+	        }
+	    }		
+    </style>
+</head>
+
+<body>
+    <header><h1>Play With Gmeek</h1></header>
+	<div class="go"><button onclick="goToRandomWebsite()">随机穿越</button></div>
+	<div class="scrolling-container">
+    	<div class="scrolling-text">
+    	《已收录》⬇️<br><br>
+    	meekdai大佬：https://meekdai.github.io<br><br>
+    	liyifanniubi：https://liyifanniubi.github.io<br>
+    	anaer：https://anaer.github.io/blog<br>
+    	lingvt：https://lingvt.github.io<br>
+    	tiengming：https://tiengming.github.io<br>
+    	xxjssyouk：https://xxjssyouk.github.io<br>
+    	ricoeur：https://ricoeur.github.io<br>：
+    	tabortao：https://tabortao.github.io/gmeekblog<br>
+    	zzcnen：https://zzcnen.github.io<br>
+    	shutouyabo：https://shutouyabo.github.io<br>
+    	sky22333：https://sky22333.github.io<br>
+    	echozap：https://echozap.github.io<br>
+    	lykayang：https://lykayang.github.io<br>
+    	cao-gift：https://cao-gift.github.io<br>
+    	hepingfly：https://hepingfly.github.io<br>
+    	thisjok：https://thisjok.github.io<br>
+    	ADd7：https://natsunokoide.github.io<br>
+    	suredream：https://suredream.github.io/gmeeklip<br>
+    	cha0s32：https://cha0s32.github.io<br>
+    	</div>
+	</div>
+    <canvas id="wormholeCanvas"></canvas>
+    <footer><p>Copyright © since 2024～ 小饅頭 All Rights Reserved.</p></footer>
+    
+    <script>
+		const websites = [
+		  { name: "site", url: "https://meekdai.github.io" },
+		  { name: "site", url: "https://liyifanniubi.github.io" },
+		  { name: "site", url: "https://anaer.github.io/blog" },
+		  { name: "site", url: "https://lingvt.github.io" },
+		  { name: "site", url: "https://tiengming.github.io" },
+		  { name: "site", url: "https://xxjssyouk.github.io" },
+		  { name: "site", url: "https://ricoeur.github.io" },
+		  { name: "site", url: "https://tabortao.github.io/gmeekblog" },
+		  { name: "site", url: "https://zzcnen.github.io" },
+		  { name: "site", url: "https://shutouyabo.github.io" },
+		  { name: "site", url: "https://sky22333.github.io" },
+		  { name: "site", url: "https://echozap.github.io" },
+		  { name: "site", url: "https://lykayang.github.io" },
+		  { name: "site", url: "https://cao-gift.github.io" },
+		  { name: "site", url: "https://hepingfly.github.io" },
+		  { name: "site", url: "https://thisjok.github.io" },
+		  { name: "site", url: "https://natsunokoide.github.io" },
+		  { name: "site", url: "https://suredream.github.io/gmeeklip" },
+		  { name: "site", url: "https://cha0s32.github.io" },
+		  { name: "site", url: "" },
+		];
+		
+		function goToRandomWebsite() {
+		  const randomIndex = Math.floor(Math.random() * websites.length);
+		  const randomWebsite = websites[randomIndex];
+		  window.open(randomWebsite.url, '_blank');
+		}
+		
+    
+		document.addEventListener('DOMContentLoaded', () => {
+		    const canvas = document.getElementById('wormholeCanvas');
+		    const ctx = canvas.getContext('2d');
+
+		    // キャンバスのサイズをウィンドウに合わせる
+		    canvas.width = window.innerWidth;
+		    canvas.height = window.innerHeight;
+
+		    // 星の点を作成する
+		    const numStars = 1500;
+		    const stars = [];
+		    for (let i = 0; i < numStars; i++) {
+		        stars.push({
+		            x: Math.random() * canvas.width - canvas.width / 2,
+		            y: Math.random() * canvas.height - canvas.height / 2,
+		            z: Math.random() * canvas.width,
+		            size: Math.random() * 2 + 1,
+		        });
+		    }
+
+		    // アニメーションループ
+		    function animate() {
+		        // キャンバスをクリア
+		        ctx.fillStyle = '#000';
+		        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+		        // 中心点を設定
+		        const centerX = canvas.width / 2;
+		        const centerY = canvas.height / 2;
+
+		        // 星を更新し、描画
+		        for (let i = 0; i < numStars; i++) {
+		            const star = stars[i];
+
+		            // 星を奥行き方向に移動
+		            star.z -= 1;
+
+		            // zが0以下になったらリセット
+		            if (star.z <= 0) {
+		                star.x = Math.random() * canvas.width - canvas.width / 2;
+		                star.y = Math.random() * canvas.height - canvas.height / 2;
+		                star.z = canvas.width;
+		            }
+
+		            // 3Dから2Dへの投影
+		            const k = 128 / star.z;
+		            const x = centerX + star.x * k;
+		            const y = centerY + star.y * k;
+		            const radius = star.size * k;
+
+		            // 星を描画
+		            if (x >= 0 && x <= canvas.width && y >= 0 && y <= canvas.height) {
+		                ctx.beginPath();
+		                ctx.arc(x, y, radius, 0, Math.PI * 2);
+		                ctx.fillStyle = `rgba(255, 255, 255, ${star.z / canvas.width})`; // 遠いほど暗く
+		                ctx.fill();
+		            }
+		        }
+
+		        requestAnimationFrame(animate);
+		    }
+
+		    animate();
+
+		    // ウィンドウのリサイズに対応
+		    window.addEventListener('resize', () => {
+		        canvas.width = window.innerWidth;
+		        canvas.height = window.innerHeight;
+		    });
+		});
+
+    </script>
+</body>
+</html>
